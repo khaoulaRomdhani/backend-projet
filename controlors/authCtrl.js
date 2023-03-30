@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 
+const secretKey = process.env.JWT_SECRET_KEY;
+
+/*const token = jwt.sign(payload, secretKey);*/
 
 
 exports.register = (req, res, next) => {
@@ -43,14 +46,16 @@ exports.login = (req, res, next) => {
                         user,
                         token: jwt.sign(
                             { userId: user._id },
-                            process.env.TOKEN_SECRET,
+                            process.env.JWT_KEY,
                             { expiresIn: '24h' }
                         )
                     })
                 })
-                .catch(error => res.status(500).json({ error }));
+                .catch(error =>  console.log(error) );
 
         })
-        .catch(error => res.status(500).json({ error }))
+        .catch(error => res.status(500).json({ error }) 
+        
+        )
 
 }
